@@ -148,7 +148,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER, ISSUE_ADMIN);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setSetType(RuleType.CODE_SMELL.name())
       .build());
@@ -166,7 +166,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER, ISSUE_ADMIN);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setSeverity(MAJOR));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setSetSeverity(MINOR)
       .build());
@@ -184,7 +184,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER, ISSUE_ADMIN);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setTags(asList("tag1", "tag2")));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setAddTags(singletonList("tag3"))
       .build());
@@ -202,7 +202,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setAssignee("arthur"));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setAssign("")
       .build());
@@ -220,7 +220,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setDoTransition("confirm")
       .setComment("type was badly defined")
@@ -244,7 +244,7 @@ public class BulkChangeActionTest {
     IssueDto issue2 = db.issues().insertIssue(newUnresolvedIssue().setAssignee(userToAssign.getLogin())).setType(BUG).setSeverity(MAJOR);
     IssueDto issue3 = db.issues().insertIssue(newUnresolvedIssue().setAssignee(null)).setType(VULNERABILITY).setSeverity(MAJOR);
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(issue1.getKey(), issue2.getKey(), issue3.getKey()))
       .setAssign(userToAssign.getLogin())
       .setSetSeverity(MINOR)
@@ -267,7 +267,7 @@ public class BulkChangeActionTest {
     setUserProjectPermissions(USER);
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue().setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setDoTransition("confirm")
       .setSendNotifications(true)
@@ -297,7 +297,7 @@ public class BulkChangeActionTest {
     ComponentDto fileOnBranch = db.components().insertComponent(newFileDto(branch));
     IssueDto issueDto = db.issues().insertIssue(newUnresolvedIssue(rule, fileOnBranch, branch).setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setDoTransition("confirm")
       .setSendNotifications(true)
@@ -326,7 +326,7 @@ public class BulkChangeActionTest {
     IssueDto issue3 = db.issues().insertIssue(newUnresolvedIssue().setType(VULNERABILITY));
     ArgumentCaptor<IssueChangeNotification> issueChangeNotificationCaptor = ArgumentCaptor.forClass(IssueChangeNotification.class);
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(issue1.getKey(), issue2.getKey(), issue3.getKey()))
       .setSetType(RuleType.BUG.name())
       .setSendNotifications(true)
@@ -348,7 +348,7 @@ public class BulkChangeActionTest {
     IssueDto issue2 = db.issues().insertIssue(newResolvedIssue().setType(BUG));
     IssueDto issue3 = db.issues().insertIssue(newResolvedIssue().setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(issue1.getKey(), issue2.getKey(), issue3.getKey()))
       .setSetType(VULNERABILITY.name())
       .build());
@@ -372,7 +372,7 @@ public class BulkChangeActionTest {
     IssueDto issue2 = db.issues().insertIssue(newUnresolvedIssue().setType(VULNERABILITY));
     IssueDto issue3 = db.issues().insertIssue(newUnresolvedIssue().setType(VULNERABILITY));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(issue1.getKey(), issue2.getKey(), issue3.getKey()))
       .setSetType(VULNERABILITY.name())
       .build());
@@ -396,7 +396,7 @@ public class BulkChangeActionTest {
     IssueDto issue2 = db.issues().insertIssue(newUnresolvedIssue().setType(VULNERABILITY));
     IssueDto issue3 = db.issues().insertIssue(newUnresolvedIssue().setType(VULNERABILITY));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(issue1.getKey(), issue2.getKey(), issue3.getKey()))
       .setSetType(VULNERABILITY.name())
       .setComment("test")
@@ -420,7 +420,7 @@ public class BulkChangeActionTest {
     IssueDto notAuthorizedIssue1 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setType(BUG));
     IssueDto notAuthorizedIssue2 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(authorizedIssue.getKey(), notAuthorizedIssue1.getKey(), notAuthorizedIssue2.getKey()))
       .setSetType(VULNERABILITY.name())
       .build());
@@ -448,7 +448,7 @@ public class BulkChangeActionTest {
     IssueDto notAuthorizedIssue1 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setType(BUG));
     IssueDto notAuthorizedIssue2 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setType(BUG));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(authorizedIssue1.getKey(), notAuthorizedIssue1.getKey(), notAuthorizedIssue2.getKey()))
       .setSetType(VULNERABILITY.name())
       .build());
@@ -474,7 +474,7 @@ public class BulkChangeActionTest {
     IssueDto notAuthorizedIssue1 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setSeverity(MAJOR));
     IssueDto notAuthorizedIssue2 = db.issues().insertIssue(newUnresolvedIssue(rule, anotherFile, anotherProject).setSeverity(MAJOR));
 
-    BulkChangeWsResponse response = call(BulkChangeRequest.builder()
+    BulkChangeWsResponse response = call(builder()
       .setIssues(asList(authorizedIssue1.getKey(), notAuthorizedIssue1.getKey(), notAuthorizedIssue2.getKey()))
       .setSetSeverity(MINOR)
       .build());
@@ -495,7 +495,7 @@ public class BulkChangeActionTest {
     expectedException.expectMessage("At least one action must be provided");
     expectedException.expect(IllegalArgumentException.class);
 
-    call(BulkChangeRequest.builder()
+    call(builder()
       .setIssues(singletonList(issueDto.getKey()))
       .setComment("type was badly defined")
       .build());
@@ -507,7 +507,7 @@ public class BulkChangeActionTest {
     expectedException.expectMessage("Number of issues is limited to 500");
     expectedException.expect(IllegalArgumentException.class);
 
-    call(BulkChangeRequest.builder()
+    call(builder()
       .setIssues(IntStream.range(0, 510).mapToObj(String::valueOf).collect(Collectors.toList()))
       .setSetSeverity(MINOR)
       .build());
@@ -517,7 +517,7 @@ public class BulkChangeActionTest {
   public void fail_when_not_authenticated() throws Exception {
     expectedException.expect(UnauthorizedException.class);
 
-    call(BulkChangeRequest.builder().setIssues(singletonList("ABCD")).build());
+    call(builder().setIssues(singletonList("ABCD")).build());
   }
 
   @Test
@@ -610,7 +610,7 @@ public class BulkChangeActionTest {
     actions.add(new org.sonar.server.issue.CommentAction(issueFieldsSetter));
   }
 
-  private class BulkChangeRequest {
+  private static class BulkChangeRequest {
 
     private final List<String> issues;
     private final String assign;
