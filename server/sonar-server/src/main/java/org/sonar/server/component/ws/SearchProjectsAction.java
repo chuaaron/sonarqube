@@ -466,7 +466,7 @@ public class SearchProjectsAction implements ComponentsWsAction {
     }
   }
 
-  private static class SearchProjectsRequest {
+  static class SearchProjectsRequest {
 
     private final int page;
     private final int pageSize;
@@ -529,7 +529,7 @@ public class SearchProjectsAction implements ComponentsWsAction {
     }
   }
 
-  private static class RequestBuilder {
+  static class RequestBuilder {
     private String organization;
     private Integer page;
     private Integer pageSize;

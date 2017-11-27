@@ -170,7 +170,7 @@ public class RemoveAction implements NotificationsWsAction {
     return remove;
   }
 
-  private static class RemoveRequest {
+  static class RemoveRequest {
 
     private String channel;
     private String login;

@@ -173,7 +173,7 @@ public class CreateAction implements UsersWsAction {
     return oldScmAccounts != null ? oldScmAccounts : Collections.emptyList();
   }
 
-  private static class CreateRequest {
+  static class CreateRequest {
 
     private final String login;
     private final String password;
@@ -222,7 +222,7 @@ public class CreateAction implements UsersWsAction {
     }
   }
 
-  private static class Builder {
+  static class Builder {
     private String login;
     private String password;
     private String name;

@@ -154,7 +154,7 @@ public class CreateAction implements ProjectsWsAction {
       .build();
   }
 
-  private static class CreateRequest {
+  static class CreateRequest {
 
     private final String organization;
     private final String key;
@@ -201,7 +201,7 @@ public class CreateAction implements ProjectsWsAction {
     }
   }
 
-  private static class Builder {
+  static class Builder {
     private String organization;
     private String key;
     private String name;

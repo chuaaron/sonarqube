@@ -205,7 +205,7 @@ public class SearchHistoryAction implements MeasuresWsAction {
     return componentFinder.getByKey(dbSession, componentKey);
   }
 
-  private static class SearchHistoryRequest {
+  static class SearchHistoryRequest {
     private final String component;
     private final String branch;
     private final List<String> metrics;
@@ -260,7 +260,7 @@ public class SearchHistoryAction implements MeasuresWsAction {
     }
   }
 
-  private static class Builder {
+  static class Builder {
     private String component;
     private String branch;
     private List<String> metrics;

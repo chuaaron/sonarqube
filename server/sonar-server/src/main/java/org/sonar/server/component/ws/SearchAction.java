@@ -118,8 +118,8 @@ public class SearchAction implements ComponentsWsAction {
     writeProtobuf(searchWsResponse, wsRequest, wsResponse);
   }
 
-  private static Request toSearchWsRequest(org.sonar.api.server.ws.Request request) {
-    return new Request()
+  private static SearchRequest toSearchWsRequest(org.sonar.api.server.ws.Request request) {
+    return new SearchRequest()
       .setOrganization(request.param(PARAM_ORGANIZATION))
       .setQualifiers(request.mandatoryParamAsStrings(PARAM_QUALIFIERS))
       .setLanguage(request.param(PARAM_LANGUAGE))
@@ -128,7 +128,7 @@ public class SearchAction implements ComponentsWsAction {
       .setPageSize(request.mandatoryParamAsInt(Param.PAGE_SIZE));
   }
 
-  private SearchWsResponse doHandle(Request request) {
+  private SearchWsResponse doHandle(SearchRequest request) {
     try (DbSession dbSession = dbClient.openSession(false)) {
       OrganizationDto organization = getOrganization(dbSession, request);
       ComponentQuery esQuery = buildEsQuery(organization, request);
@@ -150,7 +150,7 @@ public class SearchAction implements ComponentsWsAction {
     return projects.stream().collect(toMap(ComponentDto::uuid, ComponentDto::getDbKey));
   }
 
-  private OrganizationDto getOrganization(DbSession dbSession, Request request) {
+  private OrganizationDto getOrganization(DbSession dbSession, SearchRequest request) {
     String organizationKey = Optional.ofNullable(request.getOrganization())
       .orElseGet(defaultOrganizationProvider.get()::getKey);
     return WsUtils.checkFoundWithOptional(
@@ -158,7 +158,7 @@ public class SearchAction implements ComponentsWsAction {
       "No organizationDto with key '%s'", organizationKey);
   }
 
-  private static ComponentQuery buildEsQuery(OrganizationDto organization, Request request) {
+  private static ComponentQuery buildEsQuery(OrganizationDto organization, SearchRequest request) {
     return ComponentQuery.builder()
       .setQuery(request.getQuery())
       .setOrganization(organization.getUuid())
@@ -199,7 +199,7 @@ public class SearchAction implements ComponentsWsAction {
     return builder.build();
   }
 
-  private static class Request {
+  static class SearchRequest {
     private String organization;
     private List<String> qualifiers;
     private Integer page;
@@ -212,7 +212,7 @@ public class SearchAction implements ComponentsWsAction {
       return organization;
     }
 
-    public Request setOrganization(@Nullable String organization) {
+    public SearchRequest setOrganization(@Nullable String organization) {
       this.organization = organization;
       return this;
     }
@@ -221,7 +221,7 @@ public class SearchAction implements ComponentsWsAction {
       return qualifiers;
     }
 
-    public Request setQualifiers(List<String> qualifiers) {
+    public SearchRequest setQualifiers(List<String> qualifiers) {
       this.qualifiers = requireNonNull(qualifiers);
       return this;
     }
@@ -231,7 +231,7 @@ public class SearchAction implements ComponentsWsAction {
       return page;
     }
 
-    public Request setPage(int page) {
+    public SearchRequest setPage(int page) {
       this.page = page;
       return this;
     }
@@ -241,7 +241,7 @@ public class SearchAction implements ComponentsWsAction {
       return pageSize;
     }
 
-    public Request setPageSize(int pageSize) {
+    public SearchRequest setPageSize(int pageSize) {
       this.pageSize = pageSize;
       return this;
     }
@@ -251,7 +251,7 @@ public class SearchAction implements ComponentsWsAction {
       return query;
     }
 
-    public Request setQuery(@Nullable String query) {
+    public SearchRequest setQuery(@Nullable String query) {
       this.query = query;
       return this;
     }
@@ -261,7 +261,7 @@ public class SearchAction implements ComponentsWsAction {
       return language;
     }
 
-    public Request setLanguage(@Nullable String language) {
+    public SearchRequest setLanguage(@Nullable String language) {
       this.language = language;
       return this;
     }
